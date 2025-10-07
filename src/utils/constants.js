@@ -1,0 +1,91 @@
+export const COLORS = {
+  PRIMARY: "#2563eb",
+  SUCCESS: "#10b981",
+  BG: "#f9fafb",
+  TEXT: "#374151",
+  MUTED: "#6b7280",
+  SHELF: "#9ca3af",
+  FLOOR: "#e5e7eb",
+  PATH: "rgba(37, 99, 235, 0.22)",
+  PATH_STRONG: "rgba(37, 99, 235, 0.6)",
+  LOCATION: "#f59e0b",
+};
+
+export const GRID_W = 12;
+export const GRID_H = 8;
+
+// Sample product data
+export const INITIAL_PRODUCTS = [
+  {
+    id: "P1001",
+    name: "Apel Organik",
+    price: 29900,
+    image: "/organic-apples-in-basket.png",
+    category: "Buah",
+    barcode: "8901001",
+    location: { x: 9, y: 2 },
+  },
+  {
+    id: "P1002",
+    name: "Pisang Satu Sisir",
+    price: 14900,
+    image: "/bananas-bunch.png",
+    category: "Buah",
+    barcode: "8901002",
+    location: { x: 10, y: 2 },
+  },
+  {
+    id: "P2001",
+    name: "Susu Sapi 1L",
+    price: 19900,
+    image: "/milk-carton.png",
+    category: "Produk Susu",
+    barcode: "8902001",
+    location: { x: 3, y: 5 },
+  },
+  {
+    id: "P2002",
+    name: "Yogurt Yunani",
+    price: 34900,
+    image: "/placeholder.png",
+    category: "Produk Susu",
+    barcode: "8902002",
+    location: { x: 4, y: 5 },
+  },
+  {
+    id: "P3001",
+    name: "Pasta Spaghetti",
+    price: 22900,
+    image: "/placeholder.png",
+    category: "Bahan Makanan",
+    barcode: "8903001",
+    location: { x: 7, y: 6 },
+  },
+  {
+    id: "P3002",
+    name: "Saus Tomat",
+    price: 25900,
+    image: "/tomato-sauce-jar.png",
+    category: "Bahan Makanan",
+    barcode: "8903002",
+    location: { x: 8, y: 6 },
+  },
+  {
+    id: "P4001",
+    name: "Keripik Kentang",
+    price: 39900,
+    image: "/potato-chips-bag.png",
+    category: "Camilan",
+    barcode: "8904001",
+    location: { x: 2, y: 2 },
+  },
+  {
+    id: "P5001",
+    name: "Cokelat Hitam",
+    price: 29900,
+    image: "/dark-chocolate-bar.png",
+    category: "Camilan",
+    barcode: "8905001",
+    location: { x: 5, y: 2 },
+  },
+];
