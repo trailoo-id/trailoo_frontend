@@ -1,130 +1,45 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Home,
   MapIcon,
   ShoppingCartIcon as CartIcon,
-  BarcodeIcon,
   CreditCard,
 } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 
-export default function Navigation({
-  colors,
-  activeTab,
-  setActiveTab,
-  navPosition = "top",
-  navHidden = false,
-  scrolled = false,
-  onHeightChange,
-}) {
+export default function Navigation({ colors }) {
   const { cartCount } = useCart();
-  const isTop = navPosition === "top";
-  const navRef = useRef(null);
-
-  useEffect(() => {
-    function measure() {
-      if (!navRef.current) return;
-      const h = Math.round(navRef.current.getBoundingClientRect().height);
-      if (onHeightChange) onHeightChange(h || 80);
-    }
-    measure();
-    const ro = new ResizeObserver(measure);
-    if (navRef.current) ro.observe(navRef.current);
-    window.addEventListener("resize", measure);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", measure);
-    };
-  }, [onHeightChange]);
-
-  // classes for container position + hide/show state
-  const posClass = isTop
-    ? "sticky top-0 left-0 right-0"
-    : "fixed left-1/2 -translate-x-1/2 w-[94%] sm:w-[86%] md:w-[66%] lg:w-[52%]";
-
-  const safeBottom = isTop
-    ? ""
-    : "bottom-[calc(env(safe-area-inset-bottom,1rem)+0.6rem)]";
-
-  const hiddenTransform = isTop ? "-translate-y-[120%]" : "translate-y-[110%]";
-  const visibleTransform = "translate-y-0";
-
-  const visibilityClass = navHidden
-    ? `${hiddenTransform} opacity-0 pointer-events-none`
-    : `${visibleTransform} opacity-100 pointer-events-auto`;
 
   return (
-    <div
-      ref={navRef}
-      role="navigation"
-      aria-hidden={navHidden}
-      className={[
-        "z-50 transition-transform transition-opacity duration-300 ease-in-out",
-        posClass,
-        safeBottom,
-        visibilityClass,
-      ]
-        .filter(Boolean)
-        .join(" ")}
-      style={{ willChange: "transform, opacity" }}
-    >
-      <nav
-        className={[
-          "mx-auto rounded-2xl border border-gray-200",
-          "backdrop-blur-md bg-white/70 shadow-lg",
-          isTop ? "border-b" : "",
-        ].join(" ")}
-        aria-label="Primary"
-      >
-        <TabsList className="grid w-full grid-cols-5 gap-1 p-2 md:p-3 rounded-2xl">
+    <nav className="sticky top-0 z-50 w-full border-b shadow-sm mb-6" style={{ backgroundColor: colors.NEUTRAL_LIGHT, borderColor: colors.NEUTRAL_LIGHT }}>
+      <div className="w-full px-8 lg:px-12">
+        <TabsList className="grid w-full grid-cols-4 gap-4 lg:gap-6 p-5 lg:p-6 bg-transparent h-auto">
           <TabTrigger
             value="home"
-            icon={
-              <Home className="h-5 w-5" style={{ color: colors.PRIMARY }} />
-            }
+            icon={<Home className="h-16 w-16 lg:h-20 lg:w-20" style={{ color: colors.PRIMARY }} />}
             label="Home"
           />
           <TabTrigger
             value="map"
-            icon={
-              <MapIcon className="h-5 w-5" style={{ color: colors.PRIMARY }} />
-            }
-            label="Store Map"
+            icon={<MapIcon className="h-16 w-16 lg:h-20 lg:w-20" style={{ color: colors.PRIMARY }} />}
+            label="Map"
           />
           <TabTrigger
             value="cart"
-            icon={
-              <CartIcon className="h-5 w-5" style={{ color: colors.PRIMARY }} />
-            }
+            icon={<CartIcon className="h-16 w-16 lg:h-20 lg:w-20" style={{ color: colors.PRIMARY }} />}
             label="Cart"
             badge={cartCount}
           />
           <TabTrigger
-            value="scanner"
-            icon={
-              <BarcodeIcon
-                className="h-5 w-5"
-                style={{ color: colors.PRIMARY }}
-              />
-            }
-            label="Scanner"
-          />
-          <TabTrigger
             value="checkout"
-            icon={
-              <CreditCard
-                className="h-5 w-5"
-                style={{ color: colors.PRIMARY }}
-              />
-            }
-            label="Checkout"
+            icon={<CreditCard className="h-16 w-16 lg:h-20 lg:w-20" style={{ color: colors.PRIMARY }} />}
+            label="Pay"
           />
         </TabsList>
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
 }
 
@@ -132,17 +47,25 @@ function TabTrigger({ value, icon, label, badge }) {
   return (
     <TabsTrigger
       value={value}
-      className="relative flex flex-col items-center justify-center gap-1 rounded-xl px-2 py-2 text-xs font-medium transition-all data-[state=active]:bg-white data-[state=active]:shadow-md sm:text-sm md:py-3"
+      className="relative flex flex-col items-center justify-center gap-2 lg:gap-3 rounded-lg px-5 py-4 lg:px-7 lg:py-5 text-base font-medium transition-all data-[state=active]:bg-white data-[state=active]:shadow-lg"
     >
-      <div className="relative">
-        {icon}
+      {/* Active indicator dot */}
+      <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#009178] opacity-0 data-[state=active]:opacity-100 transition-opacity" />
+
+      {/* Active bottom border */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#009178] opacity-0 rounded-t-full transition-opacity data-[state=active]:opacity-100" style={{ boxShadow: '0 -2px 8px rgba(0, 145, 120, 0.3)' }} />
+
+      <div className="relative group-hover:scale-110 transition-transform">
+        <div className="data-[state=active]:drop-shadow-[0_0_8px_rgba(0,145,120,0.6)]">
+          {icon}
+        </div>
         {!!badge && (
-          <span className="absolute -top-2 -right-2 min-w-[18px] leading-none rounded-full bg-blue-600 px-1.5 py-0.5 text-[10px] font-semibold text-white text-center">
+          <span className="absolute -top-1 -right-1 min-w-[20px] h-5 lg:min-w-[24px] lg:h-7 flex items-center justify-center rounded-full px-2 text-xs lg:text-sm font-bold text-white animate-pulse" style={{ backgroundColor: '#009178' }}>
             {badge}
           </span>
         )}
       </div>
-      <span className="text-[11px] leading-[1]">{label}</span>
+      <span className="text-sm lg:text-base leading-tight font-semibold data-[state=active]:text-[#009178] transition-colors">{label}</span>
     </TabsTrigger>
   );
 }

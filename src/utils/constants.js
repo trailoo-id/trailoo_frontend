@@ -1,13 +1,27 @@
 export const COLORS = {
-  PRIMARY: "#2563eb",
-  SUCCESS: "#10b981",
-  BG: "#f9fafb",
-  TEXT: "#374151",
+  // Primary Teal
+  PRIMARY: "#009178",
+  PRIMARY_DARK: "#007a63",
+  PRIMARY_LIGHT: "#4ec9b0",
+
+  // Accent Blue
+  ACCENT: "#0A3A66",
+  ACCENT_LIGHT: "#3A6FA5",
+
+  // Neutrals
+  NEUTRAL_DARK: "#1E1E1E",
+  NEUTRAL_LIGHT: "#F4F7F6",
+  WHITE: "#FFFFFF",
+
+  // Legacy (for backward compatibility)
+  SUCCESS: "#009178",
+  BG: "#FFFFFF",
+  TEXT: "#1E1E1E",
   MUTED: "#6b7280",
   SHELF: "#9ca3af",
   FLOOR: "#e5e7eb",
-  PATH: "rgba(37, 99, 235, 0.22)",
-  PATH_STRONG: "rgba(37, 99, 235, 0.6)",
+  PATH: "rgba(0, 145, 120, 0.22)",
+  PATH_STRONG: "rgba(0, 145, 120, 0.6)",
   LOCATION: "#f59e0b",
 };
 
@@ -31,7 +45,7 @@ export const INITIAL_PRODUCTS = [
     price: 14900,
     image: "/bananas-bunch.png",
     category: "Buah",
-    barcode: "8901002",
+    barcode: "8999908920706",
     location: { x: 10, y: 2 },
   },
   {
@@ -87,5 +101,15 @@ export const INITIAL_PRODUCTS = [
     category: "Camilan",
     barcode: "8905001",
     location: { x: 5, y: 2 },
+  },
+  {
+    id: "P6001",
+    name: "Produk Test Scanner",
+    price: 15000,
+    image: "/placeholder.png",
+    category: "Bahan Makanan",
+    barcode: "8999777007058",
+    location: { x: 6, y: 4 },
+    unit: "pcs"
   },
 ];

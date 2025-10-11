@@ -51,10 +51,9 @@ export function ScannerProvider({ children }) {
     setScannerActive((v) => !v)
   }
 
-  function scanProduct() {
+  function scanProduct(callback) {
     // Jika input kosong, hentikan proses
     if (!manualCode.trim()) {
-      console.warn("Kode barcode kosong — tidak ada produk yang discan.")
       return
     }
 
@@ -68,13 +67,50 @@ export function ScannerProvider({ children }) {
           { time: new Date().toISOString(), id: p.id },
           ...prev,
         ].slice(0, 6))
+
+        // Callback with success status
+        if (callback) {
+          callback({ success: true, product: p })
+        }
       } else {
-        console.warn(`Produk dengan barcode ${manualCode.trim()} tidak ditemukan.`)
+        // Callback with failure status
+        if (callback) {
+          callback({ success: false, barcode: manualCode.trim() })
+        }
       }
 
       setManualCode("")
       setScanning(false)
     }, 800)
+  }
+
+  function scanProductByBarcode(barcode, callback) {
+    // Scan product by barcode directly (for global scanner)
+    if (!barcode || !barcode.trim()) {
+      if (callback) callback({ success: false, barcode })
+      return
+    }
+
+    const p = products.find((prod) => prod.barcode === barcode.trim())
+
+    if (p) {
+      setRecentScans((prev) => [
+        { time: new Date().toISOString(), id: p.id },
+        ...prev,
+      ].slice(0, 6))
+
+      // Return product info, let caller decide whether to add to cart
+      if (callback) {
+        callback({ success: true, product: p })
+      }
+
+      return p
+    } else {
+      if (callback) {
+        callback({ success: false, barcode: barcode.trim() })
+      }
+      return null
+    }
   }
 
   const value = {
@@ -85,6 +121,7 @@ export function ScannerProvider({ children }) {
     manualCode,
     setManualCode,
     scanProduct,
+    scanProductByBarcode,
     recentScans,
   }
 
