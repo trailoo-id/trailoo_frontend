@@ -28,6 +28,18 @@ export function useGlobalBarcodeScanner() {
     const MANUAL_RESET_TIMEOUT = 2000 // ms - reset buffer if user stopped typing manually
 
     const handleKeyDown = (e) => {
+      // Ignore keyboard events when user is typing in an input field
+      const target = e.target
+      const isInputField = target.tagName === 'INPUT' ||
+                          target.tagName === 'TEXTAREA' ||
+                          target.isContentEditable ||
+                          target.closest('[contenteditable="true"]')
+
+      // If user is typing in an input field, don't intercept
+      if (isInputField && target.getAttribute('aria-hidden') !== 'true') {
+        return
+      }
+
       const currentTime = Date.now()
       const timeDiff = currentTime - lastKeyTimeRef.current
 

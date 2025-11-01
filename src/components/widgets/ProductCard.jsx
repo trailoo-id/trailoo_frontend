@@ -3,6 +3,7 @@
 import Image from "next/image"
 import Button from "@/components/common/Button"
 import CategoryBadge from "@/components/common/CategoryBadge"
+import Price from "@/components/common/Price"
 
 export default function ProductCard({ product, onLocate, colors }) {
   return (
@@ -31,8 +32,8 @@ export default function ProductCard({ product, onLocate, colors }) {
               {product.name}
             </h3>
           </div>
-          <div className="text-xl lg:text-2xl font-bold" style={{ color: colors.PRIMARY }}>
-            Rp {(product.price / 100).toLocaleString('id-ID')}
+          <div className="text-xl lg:text-2xl" style={{ color: colors.PRIMARY }}>
+            <Price value={product.price} />
           </div>
         </div>
 

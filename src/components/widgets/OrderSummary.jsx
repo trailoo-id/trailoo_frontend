@@ -32,7 +32,7 @@ export default function OrderSummary({
         <Separator />
         <div className="flex items-center justify-between text-xl font-bold">
           <span>Total</span>
-          <span>Rp {total.toFixed(2)}</span>
+          <Price value={total} />
         </div>
         {onAction && (
           <Button

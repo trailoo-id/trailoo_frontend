@@ -2,6 +2,7 @@
 
 import { ShoppingCartIcon as CartIcon, TrendingUp } from "lucide-react"
 import Button from "@/components/common/Button"
+import Price from "@/components/common/Price"
 import { useCart } from "@/hooks/useCart"
 
 export default function CartSummary({ colors, count, subtotal, onViewCart, onCheckout }) {
@@ -57,7 +58,7 @@ export default function CartSummary({ colors, count, subtotal, onViewCart, onChe
             <TrendingUp className="h-5 w-5 text-green-500" />
           </div>
           <div className="text-3xl lg:text-4xl font-bold" style={{ color: colors.PRIMARY }}>
-            Rp {(subtotal / 100).toLocaleString('id-ID')}
+            <Price value={subtotal} />
           </div>
         </div>
 

@@ -61,7 +61,7 @@ export default function CartTab({ onCheckout }) {
                 </div>
                 <div className="w-24 text-right">
                   <div className="text-sm text-gray-500">Total</div>
-                  <div className="font-semibold">Rp {item.lineTotal.toFixed(2)}</div>
+                  <Price value={item.lineTotal} />
                 </div>
                 <Button
                   variant="ghost"

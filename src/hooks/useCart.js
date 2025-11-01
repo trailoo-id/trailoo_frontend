@@ -8,7 +8,7 @@ const CartCtx = createContext(null)
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([
     { id: "P1001", qty: 2 },
-    { id: "P3001", qty: 1 },
+    { id: "P3002", qty: 1 },
   ])
   const { productMap } = useProducts()
 

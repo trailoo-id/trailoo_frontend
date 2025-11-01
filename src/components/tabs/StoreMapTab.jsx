@@ -16,7 +16,7 @@ export default function StoreMapTab() {
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 gap-4 py-4 md:py-6">
-      <Card className="md:col-span-2 overflow-hidden">
+      <Card className="md:col-span-2">
         <CardHeader>
           <CardTitle className="text-xl">Store Map</CardTitle>
         </CardHeader>
@@ -34,7 +34,7 @@ export default function StoreMapTab() {
         </CardContent>
       </Card>
 
-      <Card className="md:col-span-1">
+      <Card className="md:col-span-1 relative z-10">
         <CardHeader>
           <CardTitle className="text-xl">Navigate to Product</CardTitle>
         </CardHeader>

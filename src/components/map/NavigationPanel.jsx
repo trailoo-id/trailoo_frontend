@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useMemo } from "react"
 import Image from "next/image"
 import Button from "@/components/common/Button"
 import SearchInput from "@/components/common/SearchInput"
@@ -10,12 +11,21 @@ import { useProducts } from "@/hooks/useProducts"
 import { useNavigation } from "@/hooks/useNavigation"
 
 export default function NavigationPanel({ colors }) {
-  const { filteredProducts, searchQuery, setSearchQuery, setSelectedProduct } = useProducts()
+  const { products, setSelectedProduct } = useProducts()
   const { selectedProductId, setSelectedProductId, computeRoute, currentLocation, isRouting, path } = useNavigation()
+  const [localSearchQuery, setLocalSearchQuery] = useState("")
+
+  const filteredProducts = useMemo(() => {
+    const q = localSearchQuery.trim().toLowerCase()
+    if (!q) return products
+    return products.filter(
+      (p) => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.barcode.includes(q),
+    )
+  }, [products, localSearchQuery])
 
   return (
-    <div className="space-y-3">
-      <SearchInput value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Find a product" />
+    <div className="space-y-3 relative z-20">
+      <SearchInput value={localSearchQuery} onChange={(e) => setLocalSearchQuery(e.target.value)} placeholder="Find a product" />
 
       <div className="max-h-[240px] overflow-auto rounded-md border">
         {filteredProducts.map((p) => (

@@ -24,6 +24,7 @@ export function bfsRoute(start, target, W, H, shelvesSet) {
         node = prev.get(ck)
         ck = key(node.x, node.y)
       }
+      path.unshift(start) // Add start point to path
       return path
     }
     for (const [dx, dy] of dirs) {
