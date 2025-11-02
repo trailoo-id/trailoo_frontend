@@ -132,6 +132,7 @@ function PageContent() {
       {/* Hidden input for barcode scanner focus - keeps scanner active globally */}
       <input
         type="text"
+        inputMode="none"
         aria-hidden="true"
         style={{
           position: 'absolute',
@@ -141,18 +142,33 @@ function PageContent() {
           opacity: 0,
           pointerEvents: 'none'
         }}
-        autoFocus
         tabIndex={-1}
         onBlur={(e) => {
-          // Only auto-refocus if user is NOT typing in a real input field
+          // Smart refocus: only if user is not interacting with UI
           const activeElement = document.activeElement
           const isUserTyping = activeElement &&
                                (activeElement.tagName === 'INPUT' ||
                                 activeElement.tagName === 'TEXTAREA') &&
                                activeElement.getAttribute('aria-hidden') !== 'true'
 
-          if (!isUserTyping) {
-            setTimeout(() => e.target.focus(), 100)
+          // Don't refocus if user is typing or clicking buttons
+          const isInteractingWithUI = isUserTyping ||
+                                     activeElement?.tagName === 'BUTTON' ||
+                                     activeElement?.hasAttribute('role')
+
+          if (!isInteractingWithUI) {
+            // Longer debounce to allow interactions to complete
+            setTimeout(() => {
+              // Double-check no input is focused before refocusing
+              const nowActive = document.activeElement
+              const stillSafe = !nowActive ||
+                               nowActive.tagName === 'BODY' ||
+                               (nowActive.getAttribute('aria-hidden') === 'true')
+
+              if (stillSafe) {
+                e.target.focus()
+              }
+            }, 500)
           }
         }}
       />

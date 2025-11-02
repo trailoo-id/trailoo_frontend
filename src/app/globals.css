@@ -123,6 +123,12 @@
   /* Disable ALL auto scroll behavior */
   html {
     scroll-behavior: auto;
+    overscroll-behavior: none;
+  }
+
+  body {
+    overscroll-behavior: none;
+    overflow-x: hidden;
   }
 
   /* Prevent elements from auto-scrolling into view */
@@ -131,9 +137,14 @@
     scroll-padding: 0 !important;
   }
 
-  /* Prevent focus from auto-scrolling */
+  /* Prevent focus from auto-scrolling - critical for Android tablets */
   *:focus {
     scroll-margin: 0 !important;
+  }
+
+  /* Prevent scrollIntoView on focus for all non-input elements */
+  *:not(input):not(textarea):focus {
+    scroll-snap-align: none;
   }
 
   /* Prevent on-screen keyboard on non-input elements (tablets/mobile) */
@@ -147,10 +158,11 @@
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
   }
 
   /* Ensure keyboard only appears for search and PIN inputs */
-  input[type="text"],
+  input[type="text"]:not([inputmode="none"]),
   input[type="password"],
   input[inputmode="numeric"],
   input[inputmode="search"],
@@ -158,5 +170,28 @@
     user-select: text;
     -webkit-user-select: text;
     -webkit-touch-callout: default;
+  }
+
+  /* Explicitly hide keyboard for hidden scanner input */
+  input[inputmode="none"],
+  input[aria-hidden="true"] {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Android-specific: Prevent scroll when input gets focus */
+  input:focus,
+  textarea:focus {
+    scroll-margin-block-start: 0;
+    scroll-margin-block-end: 0;
+  }
+
+  /* Prevent zoom on input focus (which triggers scroll on Android) */
+  @media screen and (max-width: 768px) {
+    input[type="text"],
+    input[type="password"],
+    textarea {
+      font-size: 16px !important;
+    }
   }
 }

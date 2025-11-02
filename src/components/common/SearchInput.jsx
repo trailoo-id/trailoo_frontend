@@ -1,10 +1,40 @@
 "use client"
 
 import { Search, X } from "lucide-react"
+import { useRef } from "react"
 
 export default function SearchInput({ value, onChange, placeholder }) {
+  const scrollPositionRef = useRef(0)
+
   const handleClear = () => {
     onChange({ target: { value: "" } })
+  }
+
+  const handleFocus = (e) => {
+    // Save current scroll position
+    scrollPositionRef.current = window.scrollY
+
+    // Prevent browser from scrolling input into view
+    e.preventDefault()
+
+    // Re-focus with preventScroll option
+    setTimeout(() => {
+      e.target.focus({ preventScroll: true })
+
+      // Restore scroll position if browser changed it
+      if (window.scrollY !== scrollPositionRef.current) {
+        window.scrollTo(0, scrollPositionRef.current)
+      }
+    }, 0)
+  }
+
+  const handleBlur = () => {
+    // Ensure scroll position is restored after keyboard dismisses
+    setTimeout(() => {
+      if (scrollPositionRef.current !== null && window.scrollY !== scrollPositionRef.current) {
+        window.scrollTo(0, scrollPositionRef.current)
+      }
+    }, 100)
   }
 
   return (
@@ -15,6 +45,8 @@ export default function SearchInput({ value, onChange, placeholder }) {
         inputMode="search"
         value={value}
         onChange={onChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         placeholder={placeholder}
         className="w-full h-14 lg:h-16 pl-14 lg:pl-16 pr-14 lg:pr-16 text-lg lg:text-xl border-2 border-gray-200 rounded-xl focus:border-[#009178] focus:outline-none focus:ring-2 focus:ring-[#009178]/20 transition-all"
       />
