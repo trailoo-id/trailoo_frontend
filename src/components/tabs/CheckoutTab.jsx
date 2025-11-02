@@ -77,11 +77,11 @@ export default function CheckoutTab() {
               </div>
               <div className="flex items-center justify-between">
                 <span>Pajak (10%)</span>
-                <Price value={cartSubtotal * 0.07} />
+                <Price value={cartSubtotal * 0.10} />
               </div>
               <div className="mt-2 flex items-center justify-between text-xl font-bold">
                 <span>Total</span>
-                <Price value={cartSubtotal * 1.07} />
+                <Price value={cartSubtotal * 1.10} />
               </div>
             </div>
           </div>

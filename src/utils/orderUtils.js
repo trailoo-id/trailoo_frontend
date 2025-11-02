@@ -20,7 +20,7 @@ export function generateReceiptText({ orderId, cartDetailed, cartSubtotal, payme
   lines.push(`Subtotal: $${cartSubtotal.toFixed(2)}`)
   const tax = cartSubtotal * 0.10
   const total = cartSubtotal + tax
-  lines.push(`Tax (7%): $${tax.toFixed(2)}`)
+  lines.push(`Tax (10%): $${tax.toFixed(2)}`)
   lines.push(`TOTAL: $${total.toFixed(2)}`)
   lines.push("")
   lines.push(`Payment Method: QRIS`)

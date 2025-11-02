@@ -6,7 +6,7 @@ import Button from "@/components/common/Button"
 
 export default function OrderSummary({
   subtotal,
-  taxRate = 0.07,
+  taxRate = 0.10,
   onAction,
   actionLabel = "Proceed to Checkout",
   colors,
