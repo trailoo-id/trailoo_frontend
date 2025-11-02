@@ -157,7 +157,11 @@ function PageContent() {
 
           <div className="px-8 lg:px-12 pb-8">
             <TabsContent value="home">
-              <HomeTab onLocate={() => setActiveTab("map")} />
+              <HomeTab
+                onLocate={() => setActiveTab("map")}
+                onViewCart={() => setActiveTab("cart")}
+                onCheckout={() => setActiveTab("checkout")}
+              />
             </TabsContent>
 
             <TabsContent value="map">
@@ -177,7 +181,7 @@ function PageContent() {
 
       <Footer />
 
-      {/* Fullscreen prompt (shows when auto-fullscreen fails) */}
+      {/* Fullscreen prompt (shows when not in fullscreen mode) */}
       {showPrompt && !isFullscreen && (
         <FullscreenPrompt onEnterFullscreen={enterFullscreen} colors={COLORS} />
       )}

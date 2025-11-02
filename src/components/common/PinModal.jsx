@@ -178,7 +178,7 @@ export default function PinModal({ isOpen, onClose, onVerify, title = "Verifikas
 
           {/* Info */}
           <div className="text-center text-sm text-gray-500 mb-6">
-            <p>PIN Default: <span className="font-mono font-semibold">1234</span></p>
+            <p>PIN Default: <span className="font-mono font-semibold">0000</span></p>
             <p className="mt-1">Hubungi admin untuk mengubah PIN</p>
           </div>
 

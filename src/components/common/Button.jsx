@@ -18,11 +18,27 @@ const sizes = {
   icon: "h-10 w-10",
 }
 
-function Button({ className, variant = "default", size = "default", asChild = false, ...props }, ref) {
+function Button({ className, variant = "default", size = "default", asChild = false, type = "button", onClick, ...props }, ref) {
   const Comp = asChild ? "span" : "button"
+
+  const handleClick = (e) => {
+    // Only prevent default for button elements to stop form submission
+    // Don't prevent for other interactive elements
+    if (!asChild && type === "button") {
+      e.preventDefault()
+    }
+
+    // Call original onClick if provided
+    if (onClick) {
+      onClick(e)
+    }
+  }
+
   return (
     <Comp
       ref={ref}
+      type={asChild ? undefined : type}
+      onClick={asChild ? onClick : handleClick}
       className={cn(
         "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
         variants[variant] || variants.default,

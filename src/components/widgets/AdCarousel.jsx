@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight, Megaphone, Tag, Gift, TrendingUp } from "lucide-react"
+import Button from "@/components/common/Button"
 
 const adSlides = [
   {
@@ -76,35 +77,36 @@ export default function AdCarousel({ colors }) {
             </div>
             <h3 className="text-2xl lg:text-3xl font-bold mb-2 text-center">{currentAd.title}</h3>
             <p className="text-base lg:text-lg mb-6 text-center opacity-90">{currentAd.description}</p>
-            <button
+            <Button
               className="px-6 lg:px-8 py-3 lg:py-4 bg-white text-gray-900 rounded-lg font-semibold text-base lg:text-lg hover:bg-gray-100 active:scale-95 transition-all duration-200 shadow-lg"
+              onClick={() => {}}
             >
               {currentAd.cta}
-            </button>
+            </Button>
           </div>
         </div>
 
         {/* Navigation arrows */}
-        <button
+        <Button
           onClick={prevSlide}
           className="absolute left-3 lg:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow-lg transition-all active:scale-90"
           aria-label="Previous slide"
         >
           <ChevronLeft className="w-5 h-5 lg:w-6 lg:h-6 text-gray-700" />
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={nextSlide}
           className="absolute right-3 lg:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow-lg transition-all active:scale-90"
           aria-label="Next slide"
         >
           <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6 text-gray-700" />
-        </button>
+        </Button>
       </div>
 
       {/* Slide indicators with progress */}
       <div className="p-4 lg:p-5 bg-gray-50 flex items-center justify-center gap-2">
         {adSlides.map((_, index) => (
-          <button
+          <Button
             key={index}
             onClick={() => goToSlide(index)}
             className="relative group"
@@ -120,7 +122,7 @@ export default function AdCarousel({ colors }) {
                 />
               )}
             </div>
-          </button>
+          </Button>
         ))}
       </div>
 

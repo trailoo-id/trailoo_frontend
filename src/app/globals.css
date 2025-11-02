@@ -119,4 +119,20 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Disable ALL auto scroll behavior */
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Prevent elements from auto-scrolling into view */
+  * {
+    scroll-margin: 0 !important;
+    scroll-padding: 0 !important;
+  }
+
+  /* Prevent focus from auto-scrolling */
+  *:focus {
+    scroll-margin: 0 !important;
+  }
 }

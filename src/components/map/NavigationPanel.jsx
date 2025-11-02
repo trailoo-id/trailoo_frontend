@@ -75,7 +75,9 @@ export default function NavigationPanel({ colors }) {
         <Button
           className="h-12 text-lg flex-1 bg-transparent"
           variant="outline"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          onClick={() => {
+            // Start navigation without scrolling
+          }}
           disabled={!path?.length}
         >
           Start

@@ -30,13 +30,21 @@ export function useGlobalBarcodeScanner() {
     const handleKeyDown = (e) => {
       // Ignore keyboard events when user is typing in an input field
       const target = e.target
-      const isInputField = target.tagName === 'INPUT' ||
-                          target.tagName === 'TEXTAREA' ||
-                          target.isContentEditable ||
-                          target.closest('[contenteditable="true"]')
+      const tagName = target.tagName ? target.tagName.toUpperCase() : ''
 
-      // If user is typing in an input field, don't intercept
-      if (isInputField && target.getAttribute('aria-hidden') !== 'true') {
+      // Check if user is typing in an input field (search, text input, etc)
+      const isInputField = tagName === 'INPUT' ||
+                          tagName === 'TEXTAREA' ||
+                          target.isContentEditable === true ||
+                          target.contentEditable === 'true' ||
+                          target.closest('[contenteditable="true"]') !== null
+
+      // Check if this is the hidden input for scanner (has aria-hidden="true")
+      const isHiddenScannerInput = target.getAttribute('aria-hidden') === 'true'
+
+      // If user is typing in a REAL input field (not the hidden scanner input), don't intercept
+      if (isInputField && !isHiddenScannerInput) {
+        // Allow normal typing in search/input fields
         return
       }
 
