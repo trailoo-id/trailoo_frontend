@@ -12,6 +12,7 @@ export default function SearchInput({ value, onChange, placeholder }) {
       <Search className="absolute left-4 lg:left-5 top-1/2 -translate-y-1/2 h-6 w-6 lg:h-7 lg:w-7 text-gray-400" />
       <input
         type="text"
+        inputMode="search"
         value={value}
         onChange={onChange}
         placeholder={placeholder}

@@ -144,8 +144,16 @@ function PageContent() {
         autoFocus
         tabIndex={-1}
         onBlur={(e) => {
-          // Auto-refocus if lost (for scanner to work)
-          setTimeout(() => e.target.focus(), 100)
+          // Only auto-refocus if user is NOT typing in a real input field
+          const activeElement = document.activeElement
+          const isUserTyping = activeElement &&
+                               (activeElement.tagName === 'INPUT' ||
+                                activeElement.tagName === 'TEXTAREA') &&
+                               activeElement.getAttribute('aria-hidden') !== 'true'
+
+          if (!isUserTyping) {
+            setTimeout(() => e.target.focus(), 100)
+          }
         }}
       />
 
