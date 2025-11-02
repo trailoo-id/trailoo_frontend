@@ -100,7 +100,7 @@ export const INITIAL_PRODUCTS = [
     price: 12500,
     image: "/watercolor-paint.jpeg",
     category: "Alat Tulis",
-    barcode: "4000798816001",
+    barcode: "9789792797121",
     location: { x: 2, y: 4 },
   },
   {
