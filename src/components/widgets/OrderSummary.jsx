@@ -26,7 +26,7 @@ export default function OrderSummary({
           <Price value={subtotal} />
         </div>
         <div className="flex items-center justify-between">
-          <span>Tax (7%)</span>
+          <span>Tax (10%)</span>
           <Price value={tax} />
         </div>
         <Separator />
