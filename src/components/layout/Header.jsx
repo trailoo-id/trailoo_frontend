@@ -2,33 +2,40 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { Settings } from "lucide-react"
+import { LogOut } from "lucide-react"
 import PinModal from "@/components/common/PinModal"
-import AdminSettings from "@/components/widgets/AdminSettings"
 import { useSecurity } from "@/contexts/SecurityContext"
+import { useSecureExit } from "@/hooks/useSecureExit"
 
 export default function Header({ colors }) {
-  const [showPinVerification, setShowPinVerification] = useState(false)
-  const [showAdminSettings, setShowAdminSettings] = useState(false)
+  const [showLocalPinModal, setShowLocalPinModal] = useState(false)
   const { verifyPin } = useSecurity()
+  const { executePendingAction } = useSecureExit()
 
-  const handleSettingsClick = () => {
-    // Show PIN verification modal first
-    setShowPinVerification(true)
+  const handleExitClick = () => {
+    // Show PIN verification modal
+    setShowLocalPinModal(true)
   }
 
   const handlePinVerify = (inputPin) => {
     const isValid = verifyPin(inputPin)
     if (isValid) {
-      // Close PIN modal and open admin settings
-      setShowPinVerification(false)
-      setShowAdminSettings(true)
+      // Close PIN modal
+      setShowLocalPinModal(false)
+
+      // Use the executePendingAction from useSecureExit to properly exit
+      // This sets the pinVerifiedRef flag correctly
+      setTimeout(() => {
+        if (document.exitFullscreen) {
+          document.exitFullscreen()
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen()
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen()
+        }
+      }, 100)
     }
     return isValid
-  }
-
-  const handleCloseAdminSettings = () => {
-    setShowAdminSettings(false)
   }
 
   return (
@@ -47,33 +54,24 @@ export default function Header({ colors }) {
             />
           </div>
 
-          {/* Admin Settings Button */}
+          {/* Exit Fullscreen Button */}
           <button
-            onClick={handleSettingsClick}
+            onClick={handleExitClick}
             className="p-4 rounded-full hover:bg-gray-100 transition-all"
-            title="Admin Settings"
+            title="Exit Fullscreen (Keluar)"
           >
-            <Settings className="h-8 w-8 lg:h-10 lg:w-10" style={{ color: colors.PRIMARY }} />
+            <LogOut className="h-8 w-8 lg:h-10 lg:w-10" style={{ color: colors.PRIMARY }} />
           </button>
         </div>
       </header>
 
-      {/* PIN Verification Modal (Step 1) */}
+      {/* PIN Verification Modal for Exit Fullscreen */}
       <PinModal
-        isOpen={showPinVerification}
-        onClose={() => setShowPinVerification(false)}
+        isOpen={showLocalPinModal}
+        onClose={() => setShowLocalPinModal(false)}
         onVerify={handlePinVerify}
-        title="Verifikasi Admin"
+        title="Keluar dari Fullscreen"
       />
-
-      {/* Admin Settings Modal (Step 2 - after PIN verified) */}
-      {showAdminSettings && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-2xl mx-4">
-            <AdminSettings onClose={handleCloseAdminSettings} />
-          </div>
-        </div>
-      )}
     </>
   )
 }

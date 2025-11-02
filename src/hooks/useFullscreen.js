@@ -57,24 +57,76 @@ export function useFullscreen() {
         document.msFullscreenElement
       )
       setIsFullscreen(isCurrentlyFullscreen)
+
+      // Show prompt if not fullscreen
+      if (!isCurrentlyFullscreen) {
+        setShowPrompt(true)
+      } else {
+        setShowPrompt(false)
+      }
     }
 
     document.addEventListener("fullscreenchange", handleFullscreenChange)
     document.addEventListener("webkitfullscreenchange", handleFullscreenChange)
     document.addEventListener("msfullscreenchange", handleFullscreenChange)
 
-    // Try to enter fullscreen on mount after delay
+    // Check initial fullscreen state and show prompt if needed
+    const initialCheck = () => {
+      const isCurrentlyFullscreen = !!(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.msFullscreenElement
+      )
+
+      if (!isCurrentlyFullscreen) {
+        setShowPrompt(true)
+      }
+    }
+
+    // Check after a short delay
+    const checkTimer = setTimeout(initialCheck, 500)
+
+    // Detect if mobile/tablet device
+    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+
+    // Try to enter fullscreen on mount with retry logic
+    const attemptFullscreen = (retries = 3) => {
+      if (!document.fullscreenElement && retries > 0) {
+        enterFullscreen().catch(() => {
+          // Retry with longer delay for mobile devices
+          setTimeout(() => attemptFullscreen(retries - 1), isMobileDevice ? 2000 : 1500)
+        })
+      }
+    }
+
+    // First attempt after initial delay
     const timer = setTimeout(() => {
+      attemptFullscreen()
+    }, isMobileDevice ? 500 : 1000)
+
+    // Additional attempt on first user interaction (for mobile)
+    const handleFirstInteraction = () => {
       if (!document.fullscreenElement) {
         enterFullscreen()
       }
-    }, 1000)
+      // Remove listener after first attempt
+      document.removeEventListener('touchstart', handleFirstInteraction)
+      document.removeEventListener('click', handleFirstInteraction)
+    }
+
+    if (isMobileDevice) {
+      document.addEventListener('touchstart', handleFirstInteraction, { once: true })
+      document.addEventListener('click', handleFirstInteraction, { once: true })
+    }
 
     return () => {
       clearTimeout(timer)
+      clearTimeout(checkTimer)
       document.removeEventListener("fullscreenchange", handleFullscreenChange)
       document.removeEventListener("webkitfullscreenchange", handleFullscreenChange)
       document.removeEventListener("msfullscreenchange", handleFullscreenChange)
+      document.removeEventListener('touchstart', handleFirstInteraction)
+      document.removeEventListener('click', handleFirstInteraction)
     }
   }, [enterFullscreen])
 

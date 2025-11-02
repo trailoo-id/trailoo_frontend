@@ -6,10 +6,10 @@ const SecurityContext = createContext(null)
 
 /**
  * Security Provider to manage PIN-based exit prevention
- * Default PIN: 1234 (can be changed via admin settings)
+ * Default PIN: 0000 (can be changed via admin settings)
  */
 export function SecurityProvider({ children }) {
-  const [exitPin, setExitPin] = useState("1234") 
+  const [exitPin, setExitPin] = useState("0000")
   const [isLocked, setIsLocked] = useState(true) // Lock by default
 
   const verifyPin = useCallback((inputPin) => {

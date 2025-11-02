@@ -11,7 +11,7 @@ import { useProducts } from "@/hooks/useProducts"
 import { useCart } from "@/hooks/useCart"
 import { useNavigation } from "@/hooks/useNavigation"
 
-export default function HomeTab({ onLocate }) {
+export default function HomeTab({ onLocate, onViewCart, onCheckout }) {
   const { filteredProducts, searchQuery, setSearchQuery } = useProducts()
   const { cartSubtotal, cartCount } = useCart()
   const { computeRoute, currentLocation } = useNavigation()
@@ -46,8 +46,8 @@ export default function HomeTab({ onLocate }) {
           colors={COLORS}
           count={cartCount}
           subtotal={cartSubtotal}
-          onViewCart={() => (window.location.hash = "#cart")}
-          onCheckout={() => (window.location.hash = "#checkout")}
+          onViewCart={onViewCart}
+          onCheckout={onCheckout}
         />
         <AdCarousel colors={COLORS} />
       </div>
