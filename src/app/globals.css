@@ -135,4 +135,28 @@
   *:focus {
     scroll-margin: 0 !important;
   }
+
+  /* Prevent on-screen keyboard on non-input elements (tablets/mobile) */
+  button,
+  a,
+  div,
+  span,
+  [role="button"],
+  [role="tab"],
+  [tabindex]:not(input):not(textarea) {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* Ensure keyboard only appears for search and PIN inputs */
+  input[type="text"],
+  input[type="password"],
+  input[inputmode="numeric"],
+  input[inputmode="search"],
+  textarea {
+    user-select: text;
+    -webkit-user-select: text;
+    -webkit-touch-callout: default;
+  }
 }
